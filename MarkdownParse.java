@@ -16,7 +16,7 @@ public class MarkdownParse {
             int openParen = markdown.indexOf("(", nextCloseBracket);
             int followingOpenBracket = markdown.indexOf("[", nextOpenBracket+1);
 
-            //has an error rn
+            //has an error rn, need to add stuff for the end when cant find closeparen
             String tmp=markdown.substring(nextOpenBracket, followingOpenBracket);
             int lastParen = tmp.lastIndexOf(")");
 
