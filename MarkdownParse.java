@@ -14,18 +14,29 @@ public class MarkdownParse {
             int nextOpenBracket = markdown.indexOf("[", currentIndex);
             int nextCloseBracket = markdown.indexOf("]", nextOpenBracket);
             int openParen = markdown.indexOf("(", nextCloseBracket);
-            int followingOpenBracket = markdown.indexOf("[", nextOpenBracket+1);
+            int followingOpenBracket = markdown.indexOf("[", openParen);
 
-            //has an error rn, need to add stuff for the end when cant find closeparen
-            String tmp=markdown.substring(nextOpenBracket, followingOpenBracket);
-            int lastParen = tmp.lastIndexOf(")");
+            //check the normal brackets for exceptions
+            if(nextOpenBracket<0||nextCloseBracket<0||openParen<0) break;
 
-
-            int closeParen = markdown.indexOf(")", openParen);
-            
-            toReturn.add(markdown.substring(openParen + 1, lastParen));
-            
-            currentIndex = lastParen + 1;
+            //check if it is the last [ to make sure no outofboundsexception
+            if(followingOpenBracket<0){
+                int closeParen = markdown.indexOf(")", openParen);
+                if(closeParen<0){
+                    break;
+                }                
+                toReturn.add(markdown.substring(openParen + 1, closeParen));                
+                currentIndex = closeParen + 1;
+            }
+            else{
+                String tmp=markdown.substring(0, followingOpenBracket);
+                int closeParen = tmp.indexOf(")", openParen);
+                if(closeParen<0){
+                    break;
+                }                
+                toReturn.add(markdown.substring(openParen + 1, closeParen));                
+                currentIndex = closeParen + 1;
+            }
         }
         return toReturn;
     }

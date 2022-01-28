@@ -3,6 +3,7 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.*;
@@ -22,7 +23,8 @@ public class MarkdownParseTest {
             e.printStackTrace();
         }
 
-        assertEquals(List.of("https://something.com", "some-page.html"), MarkdownParse.getLinks(contents));
+        assertEquals(List.of("https://something.com", "some-page.html")
+            , MarkdownParse.getLinks(contents));
     }
     @Test
     public void mdparsetest2() {
@@ -46,7 +48,7 @@ public class MarkdownParseTest {
             e.printStackTrace();
         }
 
-        assertEquals("", MarkdownParse.getLinks(contents));
+        assertEquals(new ArrayList<String>(), MarkdownParse.getLinks(contents));
     }
     @Test
     public void mdparsetest4() {
@@ -58,7 +60,7 @@ public class MarkdownParseTest {
             e.printStackTrace();
         }
 
-        assertEquals("", MarkdownParse.getLinks(contents));
+        assertEquals(new ArrayList<String>(), MarkdownParse.getLinks(contents));
     }
     @Test
     public void mdparsetest5() {
@@ -94,7 +96,7 @@ public class MarkdownParseTest {
             e.printStackTrace();
         }
 
-        assertEquals("", MarkdownParse.getLinks(contents));
+        assertEquals(new ArrayList<String>(), MarkdownParse.getLinks(contents));
     }
     @Test
     public void mdparsetest8() {
