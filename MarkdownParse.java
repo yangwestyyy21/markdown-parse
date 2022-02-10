@@ -8,33 +8,30 @@ public class MarkdownParse {
     public static ArrayList<String> getLinks(String markdown) {
         ArrayList<String> toReturn = new ArrayList<>();
         // find the next [, then find the ], then find the (, then take up to
-        // the next )
+        // the next )                     
         int currentIndex = 0;
         while(currentIndex < markdown.length()) {
             int nextOpenBracket = markdown.indexOf("[", currentIndex);
             int nextCloseBracket = markdown.indexOf("]", nextOpenBracket);
             int openParen = markdown.indexOf("(", nextCloseBracket);
-            int followingOpenBracket = markdown.indexOf("[", openParen);
-
-            //check the normal brackets for exceptions
-            if(nextOpenBracket<0||nextCloseBracket<0||openParen<0) break;
-
-            //check if it is the last [ to make sure no outofboundsexception
-            if(followingOpenBracket<0){
-                int closeParen = markdown.indexOf(")", openParen);
-                if(closeParen<0){
-                    break;
-                }                
-                toReturn.add(markdown.substring(openParen + 1, closeParen));                
-                currentIndex = closeParen + 1;
+            int closeParen = markdown.indexOf(")", openParen);
+            //first fix: avoid infinite loop
+            if (closeParen == -1 || openParen == -1 || nextCloseBracket == -1 || nextOpenBracket == -1){
+                break;
             }
-            else{
-                String tmp=markdown.substring(0, followingOpenBracket);
-                int closeParen = tmp.indexOf(")", openParen);
-                if(closeParen<0){
-                    break;
-                }                
-                toReturn.add(markdown.substring(openParen + 1, closeParen));                
+            //second fix: avoid image
+            if (nextOpenBracket != 0 && markdown.substring(nextOpenBracket-1, nextOpenBracket).equals("!")){
+                currentIndex = closeParen + 1;
+                continue;
+            }
+            //third fix: avoid words with only paren
+            if (!markdown.substring(openParen - 1, openParen).equals("]")) {
+                currentIndex = closeParen + 1;
+                continue;
+            }
+    
+            else {
+                toReturn.add(markdown.substring(openParen + 1, closeParen));
                 currentIndex = closeParen + 1;
             }
         }
