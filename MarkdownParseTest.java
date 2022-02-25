@@ -8,21 +8,29 @@ import java.util.ArrayList;
 public class MarkdownParseTest {
 
     @Test
-    public void parse() throws IOException {
-        ArrayList<String>[] list = new ArrayList[3];
-        list[0] = new ArrayList<String>();
-        list[1] = new ArrayList<String>();
-        list[2] = new ArrayList<String>();
-        list[0].add("`google.com");
-        list[1].add("a.com");
-        list[1].add("a.com(())");
-        list[1].add("example.com");
-        list[2].add("https://ucsd-cse15l-w22.github.io/");
+    public void parse1() throws IOException {
+        ArrayList<String> list = new ArrayList<String>();
+        list.add("`google.com");
+        String file = load("snippet1.md");
+        assertEquals(list, MarkdownParse.getLinks(file));
+    }
 
-        for (int i = 0; i < 3; i++) {
-            String file = load("snippet" + (i + 1) + ".md");
-            assertEquals(list[i], MarkdownParse.getLinks(file));
-        }
+    @Test
+    public void parse2() throws IOException {
+        ArrayList<String> list = new ArrayList<String>();
+        list.add("a.com");
+        list.add("a.com(())");
+        list.add("example.com");
+        String file = load("snippet2.md");
+        assertEquals(list, MarkdownParse.getLinks(file));
+    }
+
+    @Test
+    public void parse3() throws IOException {
+        ArrayList<String> list = new ArrayList<String>();
+        list.add("https://ucsd-cse15l-w22.github.io/");
+        String file = load("snippet3.md");
+        assertEquals(list, MarkdownParse.getLinks(file));
     }
 
     private String load(String words) throws IOException {
