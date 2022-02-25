@@ -8,32 +8,19 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class MarkdownParseTest {
-    @Test
-    public void addition() {
-        assertEquals(2, 1 + 1);
-    }
 
     @Test
     public void parse() throws IOException {
-        ArrayList<String>[] list = new ArrayList[8];
+        ArrayList<String>[] list = new ArrayList[3];
         list[0] = new ArrayList();
         list[1] = new ArrayList();
         list[2] = new ArrayList();
-        list[3] = new ArrayList();
-        list[4] = new ArrayList();
-        list[5] = new ArrayList();
-        list[6] = new ArrayList();
-        list[7] = new ArrayList();
-        list[0].add("http://something.com");
-        list[0].add("http://somemorething.com");
-        list[1].add("https://something.com");
-        list[1].add("some-page.html");
-        list[2].add("www.something.com");
-        list[2].add("www.something.com");
-        list[7].add("a link on the first line");
+        list[0].add("[`google.com]");
+        list[1].add("[a.com, a.com(()), example.com]");
+        list[2].add("[https://ucsd-cse15l-w22.github.io/]");
 
-        for (int i = 0; i < 8; i++) {
-            String file = load("markdown" + (i + 1) + ".md");
+        for (int i = 0; i < 3; i++) {
+            String file = load("snippet" + (i + 1) + ".md");
             assertEquals(list[i], MarkdownParse.getLinks(file));
         }
     }
